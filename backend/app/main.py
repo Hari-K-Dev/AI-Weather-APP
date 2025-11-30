@@ -155,8 +155,8 @@ Guidelines:
 - If you don't know something, say so
 - If the user asks about a specific time or location not provided, ask for clarification"""
 
-            # Stream response from Ollama
-            async for chunk in ollama_service.generate_stream(
+            # Stream response from Vertex AI
+            async for chunk in vertex_ai_service.generate_stream(
                 system_prompt=system_prompt,
                 user_message=request.message,
                 history=request.history
