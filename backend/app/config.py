@@ -1,5 +1,6 @@
 from pydantic_settings import BaseSettings
 from functools import lru_cache
+from typing import Optional
 
 
 class Settings(BaseSettings):
@@ -7,17 +8,17 @@ class Settings(BaseSettings):
     host: str = "0.0.0.0"
     port: int = 8000
 
-    # Ollama
-    ollama_base_url: str = "http://localhost:11434"
-    ollama_model: str = "llama3.2:3b"
-    ollama_embed_model: str = "nomic-embed-text"
-    ollama_num_ctx: int = 2048
-    ollama_num_predict: int = 256
-    ollama_temperature: float = 0.7
+    # GCP / Vertex AI
+    gcp_project_id: Optional[str] = None
+    gcp_location: str = "us-central1"
+    gemini_model: str = "gemini-1.5-flash-001"
+    embedding_model: str = "text-embedding-004"
+    gemini_temperature: float = 0.7
+    gemini_max_output_tokens: int = 256
 
-    # Qdrant
-    qdrant_host: str = "localhost"
-    qdrant_port: int = 6333
+    # Qdrant Cloud
+    qdrant_url: Optional[str] = None
+    qdrant_api_key: Optional[str] = None
     qdrant_collection: str = "weather_kb"
     qdrant_top_k: int = 4
 

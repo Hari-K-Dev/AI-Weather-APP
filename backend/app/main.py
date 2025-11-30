@@ -14,7 +14,7 @@ from .services.weather import WeatherService
 from .services.geocode import GeocodeService
 from .services.aqi import AQIService
 from .services.rag import RAGService
-from .services.ollama import OllamaService
+from .services.vertex_ai import VertexAIService
 from .services.qdrant import QdrantService
 
 settings = get_settings()
@@ -37,20 +37,20 @@ app.add_middleware(
 weather_service = WeatherService()
 geocode_service = GeocodeService()
 aqi_service = AQIService()
-ollama_service = OllamaService()
+vertex_ai_service = VertexAIService()
 qdrant_service = QdrantService()
-rag_service = RAGService(ollama_service, qdrant_service)
+rag_service = RAGService(vertex_ai_service, qdrant_service)
 
 
 @app.get("/health", response_model=HealthResponse)
 async def health_check():
     """Health check endpoint"""
-    ollama_ok = await ollama_service.check_health()
+    vertex_ai_ok = await vertex_ai_service.check_health()
     qdrant_ok = await qdrant_service.check_health()
 
     return HealthResponse(
-        status="healthy" if ollama_ok and qdrant_ok else "degraded",
-        ollama=ollama_ok,
+        status="healthy" if vertex_ai_ok and qdrant_ok else "degraded",
+        vertex_ai=vertex_ai_ok,
         qdrant=qdrant_ok,
         timestamp=datetime.utcnow().isoformat()
     )

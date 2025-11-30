@@ -110,6 +110,6 @@ class IngestResponse(BaseModel):
 # Health Models
 class HealthResponse(BaseModel):
     status: str
-    ollama: bool
+    vertex_ai: bool
     qdrant: bool
     timestamp: str

@@ -9,10 +9,18 @@ settings = get_settings()
 
 class QdrantService:
     def __init__(self):
-        self.client = QdrantClient(
-            host=settings.qdrant_host,
-            port=settings.qdrant_port
-        )
+        # Connect to Qdrant Cloud using URL and API key
+        if settings.qdrant_url and settings.qdrant_api_key:
+            self.client = QdrantClient(
+                url=settings.qdrant_url,
+                api_key=settings.qdrant_api_key
+            )
+        else:
+            # Fallback for local development
+            self.client = QdrantClient(
+                host="localhost",
+                port=6333
+            )
         self.collection_name = settings.qdrant_collection
         self._ensure_collection()
 

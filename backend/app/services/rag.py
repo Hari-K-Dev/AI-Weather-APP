@@ -1,4 +1,4 @@
-from .ollama import OllamaService
+from .vertex_ai import VertexAIService
 from .qdrant import QdrantService
 from ..utils.chunker import chunk_text
 from ..config import get_settings
@@ -7,14 +7,14 @@ settings = get_settings()
 
 
 class RAGService:
-    def __init__(self, ollama: OllamaService, qdrant: QdrantService):
-        self.ollama = ollama
+    def __init__(self, vertex_ai: VertexAIService, qdrant: QdrantService):
+        self.vertex_ai = vertex_ai
         self.qdrant = qdrant
 
     async def get_context(self, query: str) -> list[dict]:
         """Retrieve relevant context for a query"""
         # Embed the query
-        query_vector = await self.ollama.embed(query)
+        query_vector = await self.vertex_ai.embed(query)
 
         # Search for similar documents
         results = await self.qdrant.search(
@@ -40,7 +40,7 @@ class RAGService:
         payloads = []
 
         for chunk in chunks:
-            vector = await self.ollama.embed(chunk)
+            vector = await self.vertex_ai.embed(chunk)
             vectors.append(vector)
             payloads.append({
                 "content": chunk,
