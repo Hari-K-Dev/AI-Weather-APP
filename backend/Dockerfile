@@ -20,8 +20,10 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy application code
 COPY app/ ./app/
-COPY kb/ ./kb/
 COPY scripts/ ./scripts/
+
+# Note: kb/ folder is not included - knowledge base will be ingested via API
+# after deployment using the /ingest endpoint
 
 # Cloud Run injects PORT env var (default 8080)
 EXPOSE 8080
